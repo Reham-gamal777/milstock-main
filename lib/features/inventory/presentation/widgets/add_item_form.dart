@@ -27,6 +27,7 @@ class _AddItemFormState extends State<AddItemForm> {
 
   String _selectedCategory = 'Food';
   String _selectedWarehouse = 'Warehouse A';
+  List<Map<String, dynamic>> _warehouses = [];
 
   @override
   void initState() {
@@ -34,6 +35,21 @@ class _AddItemFormState extends State<AddItemForm> {
     // Pre-generate a mock item ID
     final randId = 100 + (DateTime.now().millisecond % 900);
     _idController.text = 'INV-$randId';
+
+    // Get warehouses from bloc
+    final state = context.read<InventoryBloc>().state;
+    if (state is InventoryLoaded && state.warehouses.isNotEmpty) {
+      _warehouses = state.warehouses;
+      _selectedWarehouse = _warehouses.first['id'] ?? _warehouses.first['name'] ?? 'Warehouse A';
+    } else {
+      // Fallback defaults
+      _warehouses = [
+        {'id': 'Warehouse A', 'name': 'whA'},
+        {'id': 'Warehouse B', 'name': 'whB'},
+        {'id': 'Warehouse C', 'name': 'whC'},
+      ];
+      _selectedWarehouse = 'Warehouse A';
+    }
   }
 
   @override
@@ -87,8 +103,7 @@ class _AddItemFormState extends State<AddItemForm> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations(widget.isArabic);
     final categories = ['Food', 'Medical', 'Supplies', 'Equipment'];
-    final warehouses = ['Warehouse A', 'Warehouse B', 'Warehouse C'];
-
+    
     return Directionality(
       textDirection: loc.textDirection,
       child: Form(
@@ -142,14 +157,15 @@ class _AddItemFormState extends State<AddItemForm> {
               const SizedBox(height: 16),
 
               DropdownButtonFormField<String>(
-                initialValue: _selectedCategory,
+                value: _selectedCategory,
+                isExpanded: true,
                 decoration: InputDecoration(
                   labelText: loc.translate('categoryLabel'),
                 ),
                 items: categories.map((cat) {
-                  return DropdownMenuItem(
+                  return DropdownMenuItem<String>(
                     value: cat,
-                    child: Text(cat),
+                    child: Text(loc.translate('cat$cat')),
                   );
                 }).toList(),
                 onChanged: (val) {
@@ -171,7 +187,7 @@ class _AddItemFormState extends State<AddItemForm> {
                 keyboardType: TextInputType.number,
                 validator: (val) {
                   if (val == null || val.isEmpty) return loc.translate('quantityPlaceholder');
-                  if (int.tryParse(val) == null) return 'Enter a valid number';
+                  if (int.tryParse(val) == null) return loc.translate('invalidNumber');
                   return null;
                 },
                 decoration: InputDecoration(
@@ -195,14 +211,18 @@ class _AddItemFormState extends State<AddItemForm> {
               const SizedBox(height: 12),
 
               DropdownButtonFormField<String>(
-                initialValue: _selectedWarehouse,
+                value: _selectedWarehouse,
+                isExpanded: true,
                 decoration: InputDecoration(
                   labelText: loc.translate('warehouseLabel'),
+                  hintText: loc.translate('warehousePlaceholder'),
                 ),
-                items: warehouses.map((wh) {
-                  return DropdownMenuItem(
-                    value: wh,
-                    child: Text(wh),
+                items: _warehouses.map((wh) {
+                  final String whId = wh['_id'] ?? wh['id'] ?? '';
+                  final String whName = wh['name'] ?? '';
+                  return DropdownMenuItem<String>(
+                    value: whId,
+                    child: Text(loc.translate(whName)),
                   );
                 }).toList(),
                 onChanged: (val) {

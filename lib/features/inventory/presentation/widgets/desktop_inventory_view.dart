@@ -56,7 +56,7 @@ class DesktopInventoryView extends StatelessWidget {
                 const Icon(Icons.info, color: AppColors.secondaryGreen),
                 const SizedBox(width: 8),
                 Text(
-                  item.name,
+                  loc.translate(item.name),
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
@@ -66,21 +66,21 @@ class DesktopInventoryView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildDetailRow(loc.translate('itemId'), item.id),
-                  _buildDetailRow(loc.translate('categoryLabel'), item.category),
+                  _buildDetailRow(loc.translate('categoryLabel'), loc.translate('cat${item.category}')),
                   _buildDetailRow(loc.translate('quantityLabel'), '${item.quantity}'),
-                  _buildDetailRow(loc.translate('warehouseLabel'), item.warehouse),
+                  _buildDetailRow(loc.translate('warehouseLabel'), loc.translate(item.warehouse)),
                   _buildDetailRow(loc.translate('serialNumber'), item.serialNumber ?? 'N/A'),
                   _buildDetailRow(loc.translate('expiryDateLabel'), item.expiryDate ?? 'N/A'),
                   _buildDetailRow(loc.translate('manufacturerLabel'), item.manufacturer ?? 'N/A'),
                   _buildDetailRow(loc.translate('lastUpdated'), item.lastUpdated),
                   const SizedBox(height: 12),
-                  const Text(
-                    'Notes:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppColors.textMuted),
+                  Text(
+                    '${loc.translate('notes')}:',
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppColors.textMuted),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    item.notes ?? 'No notes available.',
+                    item.notes ?? loc.translate('noNotes'),
                     style: const TextStyle(fontSize: 13, color: AppColors.textDark, height: 1.4),
                   ),
                 ],
@@ -123,8 +123,8 @@ class DesktopInventoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations(isArabic);
-    final categories = ['All', 'Food', 'Medical', 'Supplies', 'Equipment'];
-    final statuses = ['All', 'inStock', 'lowStock', 'outOfStock'];
+    final categories = ['catAll', 'catFood', 'catMedical', 'catSupplies', 'catEquipment'];
+    final statuses = ['catAll', 'inStock', 'lowStock', 'outOfStock'];
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(32),
@@ -203,7 +203,7 @@ class DesktopInventoryView extends StatelessWidget {
                       items: categories.map((cat) {
                         return DropdownMenuItem(
                           value: cat,
-                          child: Text(cat),
+                          child: Text(loc.translate(cat)),
                         );
                       }).toList(),
                       onChanged: (val) {
@@ -269,21 +269,30 @@ class DesktopInventoryView extends StatelessWidget {
                     DataColumn(label: Text(loc.translate('lastUpdated'))),
                     DataColumn(label: Text(loc.translate('warehouse'))),
                     DataColumn(label: Text(loc.translate('action'))),
+                    DataColumn(label: const SizedBox.shrink()),
                   ],
                   rows: items.map((item) {
                     return DataRow(
                       cells: [
                         DataCell(Text(item.id, style: const TextStyle(fontWeight: FontWeight.bold))),
-                        DataCell(Text(item.name)),
-                        DataCell(Text(item.category)),
+                        DataCell(Text(loc.translate(item.name))),
+                        DataCell(Text(loc.translate('cat${item.category}'))),
                         DataCell(Text('${item.quantity}')),
                         DataCell(_buildStatusBadge(item.status, loc)),
                         DataCell(Text(item.lastUpdated)),
-                        DataCell(Text(item.warehouse)),
+                        DataCell(Text(loc.translate(item.warehouse))),
                         DataCell(
                           IconButton(
                             icon: const Icon(Icons.visibility, color: AppColors.secondaryGreen, size: 18),
                             onPressed: () => _showItemDetailsDialog(context, item, loc),
+                          ),
+                        ),
+                        DataCell(
+                          IconButton(
+                            icon: const Icon(Icons.delete_outline, color: AppColors.errorRed, size: 18),
+                            onPressed: () {
+                              _showDeleteConfirmation(context, item, loc);
+                            },
                           ),
                         ),
                       ],
@@ -295,6 +304,39 @@ class DesktopInventoryView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showDeleteConfirmation(BuildContext context, InventoryItem item, AppLocalizations loc) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return Directionality(
+          textDirection: loc.textDirection,
+          child: AlertDialog(
+            title: Text(loc.translate('confirmDelete')),
+            content: Text(
+              loc.translate('confirmDeleteMessage').replaceFirst('{name}', loc.translate(item.name)),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: Text(loc.translate('cancelButton')),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<InventoryBloc>().add(DeleteInventoryItemEvent(item.id));
+                  Navigator.pop(dialogContext);
+                },
+                child: Text(
+                  loc.translate('delete'),
+                  style: const TextStyle(color: AppColors.errorRed, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

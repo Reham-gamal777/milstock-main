@@ -13,6 +13,28 @@ class LoginUseCase implements UseCase<User, LoginParams> {
   }
 }
 
+class GetSavedUser implements UseCase<User?, NoParams> {
+  final AuthRepository repository;
+
+  GetSavedUser(this.repository);
+
+  @override
+  Future<User?> call(NoParams params) async {
+    return await repository.getSavedUser();
+  }
+}
+
+class LogoutUseCase implements UseCase<void, NoParams> {
+  final AuthRepository repository;
+
+  LogoutUseCase(this.repository);
+
+  @override
+  Future<void> call(NoParams params) async {
+    return await repository.logout();
+  }
+}
+
 class LoginParams {
   final String email;
   final String password;

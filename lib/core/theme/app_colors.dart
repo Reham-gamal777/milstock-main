@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Military Dark Greens
-  static const Color primaryGreen = Color(0xFF2E3E23); // Primary brand green
-  static const Color secondaryGreen = Color(0xFF4A603C); // Olive green
-  static const Color accentGreen = Color(0xFF6E8E5B); // Active tab/light green
-  static const Color lightGreenBg = Color(0xFFE8ECE4); // Light tint green
+  // Military Tactical Palette
+  static const Color primaryGreen = Color(0xFF2E3A24); // Deep Forest Green (Main titles/Sidebar)
+  static const Color secondaryGreen = Color(0xFF6A7B4D); // Tactical Olive (Buttons/Active states)
+  static const Color accentGreen = Color(0xFF8B9D77); // Light Olive
+  static const Color lightGreenBg = Color(0xFFE2E4D4); // Soft military tint
 
-  // Beige and Cream Tones
-  static const Color sandBeige = Color(0xFFEDEEE5); // Screen background
-  static const Color sandCream = Color(0xFFF4F5F0); // Form field backgrounds
-  static const Color cardBg = Color(0xFFFFFFFF); // Card surfaces
+  // Neutral Tones
+  static const Color sandBeige = Color(0xFFF1F2E9); // Screen background
+  static const Color sandCream = Color(0xFFF9F9F7); // Input backgrounds
+  static const Color cardBg = Color(0xFFFFFFFF);
+  static const Color borderLight = Color(0xFFE2E4D4);
+  static const Color borderDark = Color(0xFF4E4631);
 
-  // Text Colors
-  static const Color textDark = Color(0xFF1A2015); // Primary text
-  static const Color textMuted = Color(0xFF616D5A); // Secondary / subtitles
-  static const Color textLight = Color(0xFFFFFFFF); // White text
-
-  // Alert & Status Colors
-  static const Color errorRed = Color(0xFFD32F2F); // High/Urgent status
-  static const Color warningOrange = Color(0xFFFFA000); // Warning/Low stock
-  static const Color successGreen = Color(0xFF388E3C); // Approved/In stock
-  static const Color infoGrey = Color(0xFF78909C); // Pending status
+  // Functional Colors
+  static const Color errorRed = Color(0xFFD4183D); // Critical Alerts
+  static const Color warningOrange = Color(0xFFB8862A); // Low Stock/Warning
+  static const Color successGreen = Color(0xFF5B8A4A); // Approved/In Stock
+  static const Color infoGrey = Color(0xFF5A6B50); // Muted Text/Descriptions
   
-  // Borders
-  static const Color borderLight = Color(0xFFD0D4C5);
+  // Text
+  static const Color textDark = Color(0xFF2E3A24);
+  static const Color textMuted = Color(0xFF5A6B50);
+  static const Color textLight = Color(0xFFFFFFFF);
 }

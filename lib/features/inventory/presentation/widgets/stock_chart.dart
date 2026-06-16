@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
+import '../../../../core/localization/app_localizations.dart';
+
 class StockChart extends StatelessWidget {
   final bool isArabic;
 
@@ -9,9 +11,16 @@ class StockChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final days = isArabic
-        ? ['الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد']
-        : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final loc = AppLocalizations(isArabic);
+    final days = [
+      loc.translate('mon'),
+      loc.translate('tue'),
+      loc.translate('wed'),
+      loc.translate('thu'),
+      loc.translate('fri'),
+      loc.translate('sat'),
+      loc.translate('sun'),
+    ];
 
     return LineChart(
       LineChartData(

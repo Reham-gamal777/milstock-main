@@ -187,12 +187,12 @@ class DesktopDashboardView extends StatelessWidget {
                                                 ),
                                               ),
                                               const SizedBox(width: 8),
-                                              _buildPriorityBadge(req.id),
+                                              _buildPriorityBadge(req.id, loc),
                                             ],
                                           ),
                                           const SizedBox(height: 4),
                                           Text(
-                                            '${req.unit} • ${req.itemName}',
+                                            '${loc.translate(req.unit)} • ${loc.translate(req.itemName)}',
                                             style: const TextStyle(
                                               color: AppColors.textMuted,
                                               fontSize: 12,
@@ -203,7 +203,7 @@ class DesktopDashboardView extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(
-                                            req.time,
+                                            loc.translate(req.time),
                                             style: const TextStyle(
                                               fontSize: 11,
                                               color: AppColors.textMuted,
@@ -254,7 +254,7 @@ class DesktopDashboardView extends StatelessWidget {
                               itemCount: notifications.length,
                               itemBuilder: (context, index) {
                                 final item = notifications[index];
-                                return _buildNotificationTile(item);
+                                return _buildNotificationTile(item, loc);
                               },
                             ),
                           ],
@@ -391,14 +391,14 @@ class DesktopDashboardView extends StatelessWidget {
     );
   }
 
-  Widget _buildPriorityBadge(String reqId) {
-    String label = 'NORMAL';
+  Widget _buildPriorityBadge(String reqId, AppLocalizations loc) {
+    String label = loc.translate('priorityNormal');
     Color color = AppColors.infoGrey;
     if (reqId == 'REQ-1234') {
-      label = 'HIGH';
+      label = loc.translate('priorityHigh');
       color = AppColors.errorRed;
     } else if (reqId == 'REQ-1233') {
-      label = 'URGENT';
+      label = loc.translate('priorityUrgent');
       color = AppColors.errorRed;
     }
 
@@ -449,7 +449,7 @@ class DesktopDashboardView extends StatelessWidget {
     );
   }
 
-  Widget _buildNotificationTile(NotificationItem item) {
+  Widget _buildNotificationTile(NotificationItem item, AppLocalizations loc) {
     Color indicatorColor = AppColors.infoGrey;
     IconData icon = Icons.info_outline;
 
@@ -483,7 +483,7 @@ class DesktopDashboardView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  item.message,
+                  loc.translate(item.message),
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -492,7 +492,7 @@ class DesktopDashboardView extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  item.time,
+                  loc.translate(item.time),
                   style: const TextStyle(
                     fontSize: 10,
                     color: AppColors.textMuted,

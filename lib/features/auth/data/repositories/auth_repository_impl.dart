@@ -9,11 +9,16 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User> login(String email, String password) async {
-    try {
-      final userModel = await localDataSource.login(email, password);
-      return userModel;
-    } catch (e) {
-      rethrow;
-    }
+    return await localDataSource.login(email, password);
+  }
+
+  @override
+  Future<User?> getSavedUser() async {
+    return await localDataSource.getSavedUser();
+  }
+
+  @override
+  Future<void> logout() async {
+    await localDataSource.logout();
   }
 }

@@ -22,50 +22,58 @@ class AppTheme {
         bodyColor: AppColors.textDark,
         displayColor: AppColors.textDark,
       ),
-      cardTheme: const CardThemeData(
+      cardTheme: CardThemeData(
         color: AppColors.cardBg,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: AppColors.borderLight, width: 1),
-          borderRadius: BorderRadius.all(Radius.circular(12)),
+          side: const BorderSide(color: Color(0x1F4E4631), width: 1.2),
+          borderRadius: BorderRadius.circular(16),
         ),
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.primaryGreen,
+        foregroundColor: AppColors.textLight,
+        centerTitle: true,
+        titleTextStyle: (isArabic ? GoogleFonts.cairo() : GoogleFonts.inter(fontWeight: FontWeight.bold)).copyWith(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textLight,
+        ),
+        elevation: 0,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.sandCream,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.borderLight, width: 1),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: AppColors.borderLight, width: 1.2),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.borderLight, width: 1),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: AppColors.borderLight, width: 1.2),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.secondaryGreen, width: 1.5),
         ),
-        labelStyle: const TextStyle(
-          color: AppColors.textMuted,
-          fontWeight: FontWeight.w500,
-        ),
-        floatingLabelStyle: const TextStyle(
-          color: AppColors.secondaryGreen,
-          fontWeight: FontWeight.bold,
-        ),
+        labelStyle: const TextStyle(color: AppColors.textMuted, fontSize: 13),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.secondaryGreen,
           foregroundColor: AppColors.textLight,
           elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
         ),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: AppColors.cardBg,
+        selectedItemColor: AppColors.secondaryGreen,
+        unselectedItemColor: AppColors.infoGrey,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+        unselectedLabelStyle: TextStyle(fontSize: 11),
       ),
     );
   }

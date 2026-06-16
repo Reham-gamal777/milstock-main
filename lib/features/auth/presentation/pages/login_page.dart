@@ -192,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
           const Spacer(),
           // Footer
           Text(
-            '© 2026 MilStock. ${loc.isArabic ? "جميع الحقوق محفوظة." : "All rights reserved."}',
+            loc.translate('copyright'),
             style: TextStyle(
               color: AppColors.textLight.withOpacity(0.5),
               fontSize: 12,

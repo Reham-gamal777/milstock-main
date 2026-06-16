@@ -6,6 +6,9 @@ class NotificationModel extends NotificationItem {
     required super.message,
     required super.time,
     required super.type,
+    required super.category,
+    required super.titleKey,
+    super.isRead,
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
@@ -14,6 +17,9 @@ class NotificationModel extends NotificationItem {
       message: json['message'] ?? '',
       time: json['time'] ?? '',
       type: json['type'] ?? 'info',
+      category: json['category'] ?? 'system',
+      titleKey: json['titleKey'] ?? '',
+      isRead: json['isRead'] ?? false,
     );
   }
 
@@ -23,6 +29,9 @@ class NotificationModel extends NotificationItem {
       'message': message,
       'time': time,
       'type': type,
+      'category': category,
+      'titleKey': titleKey,
+      'isRead': isRead,
     };
   }
 }
